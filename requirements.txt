@@ -1,0 +1,11 @@
+fastapi==0.116.1
+uvicorn==0.35.0
+sqlalchemy==2.0.23
+pymysql==1.1.0
+pydantic==2.11.7
+pydantic[email]==2.11.7
+pydantic-settings==2.1.0
+bcrypt==4.1.2
+python-multipart==0.0.6
+requests==2.32.5
+python-dotenv==1.1.1
