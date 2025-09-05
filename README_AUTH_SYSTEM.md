@@ -179,7 +179,7 @@ Response:
 
 ### Environment Variables
 
-Create a `.env` file based on `env.example`:
+Create a `.env` file based on `.env.example`:
 
 ```bash
 # Database Configuration
@@ -214,7 +214,7 @@ SMS_FROM_NUMBER=your_twilio_number
 
 3. **Environment Configuration**:
    ```bash
-   cp env.example .env
+   cp .env.example .env
    # Edit .env with your database credentials
    ```
 
@@ -296,7 +296,7 @@ timelycabs/
 │   └── database_schema.sql
 ├── requirements.txt
 ├── run.py
-├── env.example
+├── .env.example
 └── README_AUTH_SYSTEM.md
 ```
 

@@ -51,7 +51,7 @@ I have successfully created a complete OTP-based authentication system for the T
 ### 4. Supporting Files
 
 #### Configuration
-- `env.example` - Environment variables template
+- `.env.example` - Environment variables template
 - `requirements.txt` - Updated with all necessary dependencies
 
 #### Testing & Setup
@@ -82,7 +82,7 @@ I have successfully created a complete OTP-based authentication system for the T
 ### 1. Setup Environment
 ```bash
 # Copy environment template
-cp env.example .env
+cp .env.example .env
 
 # Edit .env with your database credentials
 # DATABASE_URL=mysql+pymysql://username:password@localhost:3306/timelycabs

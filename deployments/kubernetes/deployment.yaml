@@ -1,0 +1,145 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: timelycabs-app
+  namespace: timelycabs
+  labels:
+    app: timelycabs
+    component: app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: timelycabs
+      component: app
+  template:
+    metadata:
+      labels:
+        app: timelycabs
+        component: app
+    spec:
+      containers:
+      - name: timelycabs
+        image: timelycabs:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: timelycabs-config
+              key: ENVIRONMENT
+        - name: APP_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: timelycabs-config
+              key: APP_NAME
+        - name: APP_VERSION
+          valueFrom:
+            configMapKeyRef:
+              name: timelycabs-config
+              key: APP_VERSION
+        - name: API_V1_PREFIX
+          valueFrom:
+            configMapKeyRef:
+              name: timelycabs-config
+              key: API_V1_PREFIX
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: timelycabs-secrets
+              key: DATABASE_URL
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: timelycabs-secrets
+              key: SECRET_KEY
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: timelycabs-secrets
+              key: REDIS_URL
+        - name: DATABASE_POOL_SIZE
+          valueFrom:
+            configMapKeyRef:
+              name: timelycabs-config
+              key: DATABASE_POOL_SIZE
+        - name: DATABASE_MAX_OVERFLOW
+          valueFrom:
+            configMapKeyRef:
+              name: timelycabs-config
+              key: DATABASE_MAX_OVERFLOW
+        - name: DATABASE_POOL_RECYCLE
+          valueFrom:
+            configMapKeyRef:
+              name: timelycabs-config
+              key: DATABASE_POOL_RECYCLE
+        - name: DATABASE_ECHO
+          valueFrom:
+            configMapKeyRef:
+              name: timelycabs-config
+              key: DATABASE_ECHO
+        - name: ACCESS_TOKEN_EXPIRE_MINUTES
+          valueFrom:
+            configMapKeyRef:
+              name: timelycabs-config
+              key: ACCESS_TOKEN_EXPIRE_MINUTES
+        - name: REFRESH_TOKEN_EXPIRE_DAYS
+          valueFrom:
+            configMapKeyRef:
+              name: timelycabs-config
+              key: REFRESH_TOKEN_EXPIRE_DAYS
+        - name: OTP_EXPIRE_MINUTES
+          valueFrom:
+            configMapKeyRef:
+              name: timelycabs-config
+              key: OTP_EXPIRE_MINUTES
+        - name: SMS_PROVIDER
+          valueFrom:
+            configMapKeyRef:
+              name: timelycabs-config
+              key: SMS_PROVIDER
+        - name: SMS_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: timelycabs-secrets
+              key: SMS_API_KEY
+        - name: SMS_API_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: timelycabs-secrets
+              key: SMS_API_SECRET
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: timelycabs-config
+              key: LOG_LEVEL
+        - name: RATE_LIMIT_REQUESTS
+          valueFrom:
+            configMapKeyRef:
+              name: timelycabs-config
+              key: RATE_LIMIT_REQUESTS
+        - name: RATE_LIMIT_WINDOW
+          valueFrom:
+            configMapKeyRef:
+              name: timelycabs-config
+              key: RATE_LIMIT_WINDOW
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /api/v1/health/ready
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"

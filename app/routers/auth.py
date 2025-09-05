@@ -73,21 +73,22 @@ async def verify_otp(request: VerifyOTPRequest, db: Session = Depends(get_db)):
             user_with_roles = auth_service.get_user_with_roles(db, user.user_id)
             
             roles = []
-            for ur in user_with_roles.roles:
+            for ur in user_with_roles.user_roles:
                 roles.append(RoleResponse(
                     role_id=ur.role.role_id,
-                    role_name=ur.role.role_name.value,
+                    role_name=ur.role.role_name,
                     description=ur.role.description
                 ))
             
             user_response = UserWithRolesResponse(
                 user_id=user_with_roles.user_id,
                 full_name=user_with_roles.full_name,
-                gender=user_with_roles.gender.value if user_with_roles.gender else None,
+                gender=user_with_roles.gender,
                 phone=user_with_roles.phone,
                 phone_verified=user_with_roles.phone_verified,
                 is_active=user_with_roles.is_active,
                 created_at=user_with_roles.created_at,
+                updated_at=user_with_roles.updated_at,
                 roles=roles
             )
             
